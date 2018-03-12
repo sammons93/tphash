@@ -67,11 +67,44 @@ const char *inserer(struct annuaire *an, const char *nom, const char *numero)
 
 const char *rechercher_numero(struct annuaire *an, const char *nom)
 {
+    unsigned int hash = hash(nom) % an->taille;
+    if (an->listes[hash].tete == NULL){
+        return NULL;
+    }
+    struct cellule *cour = an->listes[hash].tete;
+    while(cour->nom != nom && cour->suiv != NULL){
+        cour = cour->suiv;
+    }
+    if(cour->suiv == NULL){
+        return NULL;
+    }
+    else{
+        const char *numero = cour->numero;
+        return numero;
+    }
 }
 
 
 void supprimer(struct annuaire *an, const char *nom)
 {
+    unsigned int hash = hash(nom) % an->taille;
+    if (an->listes[hash].tete != NULL){
+        struct cellule *cour = an->listes[hash].tete;
+        if(cour->nom == nom){
+            an->listes[hash].tete = cour->suiv;
+            free(cour);
+        }
+        else{
+            while(cour->suiv.nom != nom && cour->suiv != NULL){
+                cour = cour->suiv;
+            }
+           if (cour->suiv != NULL){
+               struct cellule *supp = cour->suiv;
+               cour->suiv = supp->suiv;
+               free(supp);
+           }
+        }
+    }
 }
 
 void afficherCell(struct cellule *cell){
