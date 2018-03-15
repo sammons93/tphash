@@ -23,7 +23,7 @@ struct cellule *creer_cellule(const char *nom, const char *numero);
 const char *insererListe(struct liste *liste, struct cellule *cell);
 
 //retourne la fonction de hash de la chaine de caractere str
-unsigned int hash(const char *str);
+unsigned int hachage(const char *str);
 
 // Cree un nouvel annuaire, initialement vide
 struct annuaire *creer();
@@ -68,7 +68,9 @@ const char *rechercher_numero(struct annuaire *an, const char *nom);
  * Supprime l'entree de cle nom si elle presente, sans effet sinon */
 void supprimer(struct annuaire *an, const char *nom);
 
+void afficherCell(struct cellule *cell);
 
+void afficherListe(struct liste *liste);
 
 // debug
 void afficher(struct annuaire *an);

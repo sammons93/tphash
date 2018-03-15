@@ -1,21 +1,22 @@
 CC=clang
-CFLAGS=-Wall -Wextra -std=c99 -g
+CFLAGS=-std=c99 -Wall -Wextra -g
 LDFLAGS=-lm
-EXEC=hachage
+EXEC=annuaire
+SRC=$(wildcard *.c)
+OBJ=$(SRC:.c=.o)
 
-all: $(EXEC)
+all: $(EXEC) clean
 
-hachage: hachage.o annuaire.o
-	$(CC) -o hachage.o annuaire.o $(LDFLAGS)
+annuaire: $(OBJ)
+		$(CC) -o $@ $^ $(LDFLAGS)
 
-hachage.o: hachage.c
-	$(CC) -o hachage.o -c hachage.c $(CFLAGS)
+annuaire.o: hachage.h
 
-annuaire.o: annuaire.c hachage.h
-	$(CC) -o annuaire.o -c annuaire.c $(CFLAGS)
+%.o: %.c
+		$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
-	rm -rf *.o
+		rm -rf *.o
 
 mrproper: clean
-	rm -rf $(EXEC)
+		rm -rf $(EXEC)
